@@ -120,7 +120,7 @@ where
         let upper = adjust_to_max(upp);
         let product = f(lower) * f(upper);
         if product <= 0. {
-            return Some(Bounds::new_from_range(lower, upper));
+            return Bounds::new_from_range(lower, upper);
         } else {
             low = lower + expansion_factor * (lower - upper);
             upp = upper + expansion_factor * (upper - lower);
@@ -152,10 +152,10 @@ impl Bounds {
         }
     }
 
-    fn new_from_range(lower: f64, upper: f64) -> Bounds {
+    fn new_from_range(lower: f64, upper: f64) -> Option<Bounds> {
         if lower > upper {
-            panic!("lower cannot be greater than upper bounds")
+            return None;
         }
-        Bounds { lower, upper }
+        Some(Bounds { lower, upper })
     }
 }
